@@ -624,7 +624,7 @@ void PerformMainMenueOption(enMainMenueOption MainMenueOption) {
     {
         system("cls");
         ShowTransactionsMenue();
-       
+        break;
     }
 
     case enMainMenueOption::Exit:
@@ -675,4 +675,5 @@ int main()
     ShowMainMenue();
     system("pause>0");
     return 0;
+
 }

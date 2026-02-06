@@ -20,7 +20,7 @@ struct sClient
     bool MarkForDelete = false;
 };
 
-enum enMainMenueOption { ShowClientList = 1, AddClient = 2, DeleteClient = 3, UpdateClientInfo = 4, FindClient = 5, Transactions = 6, Exit = 7 };
+enum enMainMenueOption { ShowClientList = 1, AddClient = 2, DeleteClient = 3, UpdateClientInfo = 4, FindClient = 5, Transactions = 6, MangementUsers =7 , LogOut=8 , Exit = 9 };
 enum enTransactionsScreen { Deposit = 1, Withdraw = 2, TotalBalances = 3, BackToMainMenue = 4 };
 double ReadPositiveNumber(string Message)
 {
@@ -666,7 +666,9 @@ void ShowMainMenue() {
     cout << "\t[4] Update Client Info.\n";
     cout << "\t[5] Find Client.\n";
     cout << "\t[6] Transactions.\n";
-    cout << "\t[7] Exit.\n";
+    cout << "\t[7] Mangement User.\n";
+    cout << "\t[8] Log Out.\n";
+    cout << "\t[9] Exit.\n";
     cout << "===========================================================" << endl;
     PerformMainMenueOption((enMainMenueOption)ReadMainMenueOption());
 }

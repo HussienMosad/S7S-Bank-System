@@ -668,7 +668,7 @@ void ShowMainMenue() {
     cout << "\t[6] Transactions.\n";
     cout << "\t[7] Mangement User.\n";
     cout << "\t[8] Log Out.\n";
-    cout << "\t[9] Exit.\n";
+    cout << "\t[9] Exit from the program.\n";
     cout << "===========================================================" << endl;
     PerformMainMenueOption((enMainMenueOption)ReadMainMenueOption());
 }

@@ -167,10 +167,37 @@ void ShowLoginScreen() {
 	cout << "\t\t Login Screen\n";
 	cout << "===========================================================" << endl;
 }
+short ReadMangementMenueOption() {
+	short Choose;
+	cout << " Choose What Do You Want To Do ? [1 to 6]?";
+	cin >> Choose;
+	return Choose;
+}
+void PerformMangementMenueOption(enMangementMenueOption MangementMenueOption) {
+	switch (MangementMenueOption) {
+	
+	
+	}
+}
+
 void Login() {
 	ShowLoginScreen();
 	if (ReadUserInformation())
 		ShowMainMenue();
+}
+void ShowMangementUsersMenue(){
+	system("cls");
+	cout << "===========================================================" << endl;
+	cout << "\t\t Mangement Screen\n";
+	cout << "===========================================================" << endl;
+	cout << "\t[1] Show Users List.\n";
+	cout << "\t[2] Add New User.\n";
+	cout << "\t[3] Delete User.\n";
+	cout << "\t[4] Update User Info.\n";
+	cout << "\t[5] Find User.\n";
+	cout << "\t[6] Back To Main Menue.\n";
+	cout << "===========================================================" << endl;
+	PerformMangementMenueOption((enMangementMenueOption)ReadMangementMenueOption());
 }
 
 

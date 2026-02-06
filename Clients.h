@@ -599,6 +599,12 @@ void PerformMainMenueOption(enMainMenueOption MainMenueOption) {
         ShowTransactionsMenue();
         break;
     }
+    case enMainMenueOption::MangementUsers :
+    {
+        system("cls");
+        ShowMangementUsersMenue();
+        break;
+    }
     case enMainMenueOption::LogOut:
     {
         system("cls");

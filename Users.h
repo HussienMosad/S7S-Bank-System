@@ -1,8 +1,14 @@
 #pragma once
-#include "Clients.h"
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
 const string UsersFileName = "Users.txt";
-void ShowLoginScreen() {}
-void ShowMangementMenue(){}
+void ShowLoginScreen();
+void ShowMainMenue(); // Add this function declaration above the Login function
 struct stUser {
 	string UserName;
 	string PassWord;
@@ -10,6 +16,98 @@ struct stUser {
 	bool MarkForDelete = false;
 };
 enum enMangementMenueOption { ListUsers = 1 , AddNewUser = 2 , DeleteUser = 3 , UpdateUser = 4 , FindUser = 5 , MainMenue = 6 };
+vector<string> SplitString(string S1, string Delim)
+{
+	vector<string> vString;
+	short pos = 0;
+	string sWord;
+
+	while ((pos = S1.find(Delim)) != string::npos)
+	{
+		sWord = S1.substr(0, pos);
+
+		if (sWord != "")
+			vString.push_back(sWord);
+
+		S1.erase(0, pos + Delim.length());
+	}
+
+	if (S1 != "")
+		vString.push_back(S1);
+
+	return vString;
+}
+
+stUser ConvertLineToRecordForUser(string Line, string Separator = "#//#")
+{
+	stUser User;
+	vector<string> vUserData = SplitString(Line, Separator);
+
+	if (vUserData.size() < 3) return User;
+
+	User.UserName = vUserData[0];
+	User.PassWord = vUserData[1];
+
+	try {
+		User.Permission = stoi(vUserData[2]);
+	} catch (const std::exception&) {
+		User.Permission = 0; // or log/error out
+	}
+
+	return User;
+}
+string ConvertRecordToLineForUser(stUser User, string Separator = "#//#")
+{
+	string stUserRecord = "";
+
+	stUserRecord += User.UserName + Separator;
+	stUserRecord += User.PassWord + Separator;
+	stUserRecord += to_string(User.Permission) + Separator;
+	
+
+	return stUserRecord;
+}
+vector<stUser> LoadUsersDataFromFile(string FileName)
+{
+	vector<stUser> vUsers;
+	fstream MyFile;
+	MyFile.open(FileName, ios::in);
+
+	if (MyFile.is_open())
+	{
+		string Line;
+		stUser User;
+
+		while (getline(MyFile, Line))
+		{
+			User = ConvertLineToRecordForUser(Line);
+			vUsers.push_back(User);
+		}
+
+		MyFile.close();
+	}
+
+	return vUsers;
+}
+void SaveUsersDataToFile(string FileName, vector<stUser>& vUsers)
+{
+	fstream MyFile;
+	MyFile.open(FileName, ios::out);
+
+	if (MyFile.is_open())
+	{
+		for (stUser U : vUsers)
+		{
+			if (U.MarkForDelete == false)
+			{
+				MyFile << ConvertRecordToLineForUser(U) << endl;
+			}
+		}
+
+		MyFile.close();
+	}
+}
+
 bool FindUserByUserName(string UserName,vector<stUser>& vUsers,stUser & User)
 {
 	for (stUser U : vUsers)
@@ -49,14 +147,14 @@ string ReadPassWord() {
 	return PassWord;
 }
 bool ReadUserInformation() {
-	vector<stUser> vUsers;
+	vector<stUser> vUsers = LoadUsersDataFromFile(UsersFileName);
 	stUser User;
 	while (true) {
 		string UserName = ReadUserName();
 		string PassWord = ReadPassWord();
-		if (CheckValidUserNameOrPassWord(PassWord , UserName , vUsers , User))
-			break ;
-
+		if (CheckValidUserNameOrPassWord(PassWord, UserName, vUsers, User)) {
+			return true;
+		}
 		else {
 			cout << "Invalid UserName/PassWord !" << endl;
 			cout << "Try Again.";
@@ -66,8 +164,20 @@ bool ReadUserInformation() {
 void ShowLoginScreen() {
 	system("cls");
 	cout << "===========================================================" << endl;
-	cout << "\t\t Main Menue Screen\n";
+	cout << "\t\t Login Screen\n";
 	cout << "===========================================================" << endl;
-	ReadUserInformation();
 }
+void Login() {
+	ShowLoginScreen();
+	if (ReadUserInformation())
+		ShowMainMenue();
+}
+
+
+
+
+
+
+
+
 

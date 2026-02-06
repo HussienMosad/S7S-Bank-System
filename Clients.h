@@ -1,10 +1,5 @@
 #pragma once
-#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <iomanip>
-
+#include "Users.h"
 using namespace std;
 
 const string ClientsFileName = "Clients.txt";
@@ -51,29 +46,6 @@ string ReadClientAccountNumber()
     cin >> AccountNumber;
     return AccountNumber;
 }
-
-vector<string> SplitString(string S1, string Delim)
-{
-    vector<string> vString;
-    short pos = 0;
-    string sWord;
-
-    while ((pos = S1.find(Delim)) != string::npos)
-    {
-        sWord = S1.substr(0, pos);
-
-        if (sWord != "")
-            vString.push_back(sWord);
-
-        S1.erase(0, pos + Delim.length());
-    }
-
-    if (S1 != "")
-        vString.push_back(S1);
-
-    return vString;
-}
-
 bool FindClientByAccountNumber(string AccountNumber,
     vector<sClient>& vClients,
     sClient& Client)
@@ -627,7 +599,12 @@ void PerformMainMenueOption(enMainMenueOption MainMenueOption) {
         ShowTransactionsMenue();
         break;
     }
-
+    case enMainMenueOption::LogOut:
+    {
+        system("cls");
+        Login();
+        break;
+    }
     case enMainMenueOption::Exit:
     {
         system("cls");

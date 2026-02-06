@@ -542,7 +542,7 @@ short ReadTransactionsMenueOption() {
 
 short ReadMainMenueOption() {
     short Choose;
-    cout << " Choose What Do You Want To Do ? [1 to 7]?";
+    cout << " Choose What Do You Want To Do ? [1 to 9]?";
     cin >> Choose;
     return Choose;
 }

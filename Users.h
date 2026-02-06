@@ -15,7 +15,7 @@ struct stUser {
 	int Permission = 0;
 	bool MarkForDelete = false;
 };
-enum enMangementMenueOption { ListUsers = 1 , AddNewUser = 2 , DeleteUser = 3 , UpdateUser = 4 , FindUser = 5 , MainMenue = 6 };
+enum enMangementMenueOption { ListUsers = 1 , AddNewUser = 2 , DeleteUser = 3 , UpdateUser = 4 , FindUser = 5 , BacktoMainMenue = 6 };
 vector<string> SplitString(string S1, string Delim)
 {
 	vector<string> vString;
@@ -175,8 +175,43 @@ short ReadMangementMenueOption() {
 }
 void PerformMangementMenueOption(enMangementMenueOption MangementMenueOption) {
 	switch (MangementMenueOption) {
+	case enMangementMenueOption::ListUsers: 
+	{
+
+		break;
+	}
+	case enMangementMenueOption::AddNewUser:
+	{
+
+
+		break;
+	}
+
+	case enMangementMenueOption::DeleteUser:
+	{
+
+
+		break;
+	}
+
+	case enMangementMenueOption::UpdateUser:
+	{
+
+
+		break;
+	}
 	
-	
+	case enMangementMenueOption::FindUser:
+	{
+
+
+		break;
+	}
+	case enMangementMenueOption::BacktoMainMenue:
+	{
+		ShowMainMenue();
+		break;
+	}
 	}
 }
 

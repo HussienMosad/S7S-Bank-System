@@ -199,7 +199,57 @@ void ShowAllUsersScreen() {
 	}
 	cout << "-----------------------------------------------------------" << endl;
 }
+void PrintUserCard(stUser User)
+{
+	cout << "\nThe following are the User details:\n";
+	cout << "User Name :    " << User.UserName << endl;
+	cout << "Pass Word      : " << User.PassWord << endl;
+	cout << "Permissions           : " << User.Permission << endl;
+}
+bool MarkUserForDeleteByUserName(string UserName, vector<stUser>& vUser) {
+	for (stUser& U : vUser) {
+		if (U.UserName == UserName) {
+			U.MarkForDelete = true;
+		}
+	}
+	return false;
+}
 
+bool DeleteUserDataByUserName() {
+	string UserName = ReadUserName();
+	if (UserName == "Admin") {
+		cout << "\nYou Can Not Delete This User." << endl;
+		GoBackToMangementMenue();
+	}
+	vector<stUser> vUser = LoadUsersDataFromFile(UsersFileName);
+	stUser User;
+	char Answer = 'n';
+
+	if (FindUserByUserName(UserName, vUser, User)) {
+		PrintUserCard(User);
+		cout << "\n\nAre You Sure You Want Delete This User (Y/N)?";
+		cin >> Answer;
+		if (Answer == 'y' || Answer == 'Y') {
+			MarkUserForDeleteByUserName(UserName, vUser);
+			SaveUsersDataToFile(UsersFileName, vUser);
+			vUser = LoadUsersDataFromFile(UsersFileName);
+			cout << "\n\n User Deleted Successfully\n";
+			return true;
+		}
+		return false;
+	}
+	else {
+		cout << "User With Number  (" << UserName << ") is Notfound !" << endl;
+		return false;
+	}
+}
+
+void ShowDeleteUserScreen() {
+	cout << "========================================\n";
+	cout << "\t Delete Users Screen\n";
+	cout << "========================================\n";
+	DeleteUserDataByUserName();
+}
 void PerformMangementMenueOption(enMangementMenueOption MangementMenueOption) {
 	switch (MangementMenueOption) {
 	case enMangementMenueOption::ListUsers: 
@@ -218,8 +268,9 @@ void PerformMangementMenueOption(enMangementMenueOption MangementMenueOption) {
 
 	case enMangementMenueOption::DeleteUser:
 	{
-
-
+		system("cls");
+		ShowDeleteUserScreen();
+		GoBackToMangementMenue();
 		break;
 	}
 

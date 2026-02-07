@@ -8,6 +8,7 @@
 using namespace std;
 const string UsersFileName = "Users.txt";
 void ShowLoginScreen();
+void ShowMangementUsersMenue();
 void ShowMainMenue(); // Add this function declaration above the Login function
 struct stUser {
 	string UserName;
@@ -173,11 +174,39 @@ short ReadMangementMenueOption() {
 	cin >> Choose;
 	return Choose;
 }
+void GoBackToMangementMenue() {
+	cout << "\nPress Eny Key to Back to Mangement Menue...";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cin.get();
+	ShowMangementUsersMenue();
+}
+void PrintUserRecord(stUser& User) {
+	cout << "|" << setw(15) << left << User.UserName;
+	cout << "|" << setw(10) << left << User.PassWord;
+	cout << "|" << setw(10) << left << User.Permission;
+}
+void ShowAllUsersScreen() {
+	vector<stUser>vUsers = LoadUsersDataFromFile(UsersFileName);
+	system("cls");
+	cout << "                      Users List " << vUsers.size() << " User (s)  " << endl;
+	cout << "------------------------------------------------------------" << endl;
+	cout << "|" << setw(15) << left << "User Name" << "|" << setw(10) << left << "Pass Word " << "|"
+		<< setw(10) << left << "Permissions" << endl
+		<< "-------------------------------------------------------------" << endl;
+	for (stUser& User : vUsers) {
+		PrintUserRecord(User);
+		cout << endl;
+	}
+	cout << "-----------------------------------------------------------" << endl;
+}
+
 void PerformMangementMenueOption(enMangementMenueOption MangementMenueOption) {
 	switch (MangementMenueOption) {
 	case enMangementMenueOption::ListUsers: 
 	{
-
+		system("cls");
+		ShowAllUsersScreen();
+		GoBackToMangementMenue();
 		break;
 	}
 	case enMangementMenueOption::AddNewUser:

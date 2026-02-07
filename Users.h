@@ -201,10 +201,10 @@ void ShowAllUsersScreen() {
 }
 void PrintUserCard(stUser User)
 {
-	cout << "\nThe following are the User details:\n";
-	cout << "User Name :    " << User.UserName << endl;
-	cout << "Pass Word      : " << User.PassWord << endl;
-	cout << "Permissions           : " << User.Permission << endl;
+	cout << "\nThe following are the User details:\n" << endl;
+	cout << "User Name :" << User.UserName << endl;
+	cout << "Pass Word : " << User.PassWord << endl;
+	cout << "Permissions : " << User.Permission << endl;
 }
 bool MarkUserForDeleteByUserName(string UserName, vector<stUser>& vUser) {
 	for (stUser& U : vUser) {
@@ -250,6 +250,20 @@ void ShowDeleteUserScreen() {
 	cout << "========================================\n";
 	DeleteUserDataByUserName();
 }
+void ShowFindUserScreen() {
+	vector<stUser> vUsers = LoadUsersDataFromFile(UsersFileName);
+	stUser User;
+	cout << "========================================\n";
+	cout << "\t Find Clients Screen\n";
+	cout << "========================================\n";
+	string a = ReadUserName();
+	if (FindUserByUserName(a, vUsers, User)) {
+		PrintUserCard(User);
+	}
+	else {
+		cout << "Client With Number  (" << a << ") is Notfound !" << endl;
+	}
+}
 void PerformMangementMenueOption(enMangementMenueOption MangementMenueOption) {
 	switch (MangementMenueOption) {
 	case enMangementMenueOption::ListUsers: 
@@ -283,8 +297,9 @@ void PerformMangementMenueOption(enMangementMenueOption MangementMenueOption) {
 	
 	case enMangementMenueOption::FindUser:
 	{
-
-
+		system("cls");
+		ShowFindUserScreen();
+		GoBackToMangementMenue();
 		break;
 	}
 	case enMangementMenueOption::BacktoMainMenue:

@@ -162,6 +162,25 @@ bool ReadUserInformation() {
 		}
 	}
 }
+stUser ReadPermissions(stUser& User) {
+	char choice = 'n';
+	cout << "Do You Want To Give Full Access ? (y,n)" << endl;
+	if (choice == 'Y' || choice == 'y') {
+		User.Permission = -1;
+		return User;
+	}
+	else {
+
+	}
+}
+void AccessPermissions(stUser& User) {
+	switch (User.Permission) {
+	case 1 :
+	{
+
+	}
+	}
+}
 void ShowLoginScreen() {
 	system("cls");
 	cout << "===========================================================" << endl;
@@ -214,7 +233,39 @@ bool MarkUserForDeleteByUserName(string UserName, vector<stUser>& vUser) {
 	}
 	return false;
 }
+stUser FillNewUserData(stUser& User) {
+	vector<stUser>vUsers = LoadUsersDataFromFile(UsersFileName);
+	stUser U;
+	cout << "Adding New User :\n\n";
+	cout << "Enter User Name?\n";
+	getline(cin >> ws, User.UserName);
+	while (FindUserByUserName(User.UserName, vUsers, U)) {
+		cout << "User With [" << User.UserName << "] already exists , Enter Another User Name ?";
+		getline(cin >> ws, User.UserName);
+	}
+	cout << "Enter Pass Word?\n";
+	getline(cin, User.PassWord);
 
+	
+
+	return User;
+}
+void SaveNewUserToFile(stUser& User, string FileName = "Users.txt") {
+	fstream File;
+	File.open(FileName, ios::out | ios::app);
+	if (File.is_open()) {
+		File << ConvertRecordToLineForUser(User, "#//#") << endl;
+		File.close();
+	}
+}
+
+void AddNewUser(vector<stUser>& vUsers)
+{
+	stUser User;
+	FillNewUserData(User);
+	vUsers.push_back(User);
+	SaveNewUserToFile(User);
+}
 bool DeleteUserDataByUserName() {
 	string UserName = ReadUserName();
 	if (UserName == "Admin") {
@@ -264,6 +315,27 @@ void ShowFindUserScreen() {
 		cout << "Client With Number  (" << a << ") is Notfound !" << endl;
 	}
 }
+
+void AddNewUsers()
+{
+	vector<stUser> vUsers = LoadUsersDataFromFile(UsersFileName);
+	char AddMore = 'Y';
+	do
+	{
+		system("cls");
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		AddNewUser(vUsers);
+		cout << "\nUser Added Succfully Do You Want To Add More Users? (Y/N): ";
+		cin >> AddMore;
+	} while (AddMore == 'Y' || AddMore == 'y');
+}
+void ShowAddNewUsersScreen() {
+	cout << "========================================\n";
+	cout << "\t Add New Users Screen\n";
+	cout << "========================================\n";
+	AddNewUsers();
+}
+
 void PerformMangementMenueOption(enMangementMenueOption MangementMenueOption) {
 	switch (MangementMenueOption) {
 	case enMangementMenueOption::ListUsers: 
@@ -275,8 +347,9 @@ void PerformMangementMenueOption(enMangementMenueOption MangementMenueOption) {
 	}
 	case enMangementMenueOption::AddNewUser:
 	{
-
-
+		system("cls");
+		ShowAddNewUsersScreen();
+		GoBackToMangementMenue();
 		break;
 	}
 
@@ -329,6 +402,14 @@ void ShowMangementUsersMenue(){
 	cout << "===========================================================" << endl;
 	PerformMangementMenueOption((enMangementMenueOption)ReadMangementMenueOption());
 }
+
+
+
+
+
+
+
+
 
 
 
